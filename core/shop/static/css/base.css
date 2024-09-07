@@ -37,7 +37,8 @@ a:link, a:visited{
 }
 
 .pic{
-    width: 90%;
+    width: 125px;
+    height: 125px;
 }
 
 .price{
