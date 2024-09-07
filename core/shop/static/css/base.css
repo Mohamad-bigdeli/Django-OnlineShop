@@ -54,3 +54,31 @@ a:link, a:visited{
 .discounted-price{
     color: black;
 }
+
+.product-container{
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+.product-detail{
+    width: 40%;
+    padding: 20px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+}
+
+.product-images{
+    width: 50%;
+    padding: 20px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+}
+
+.product-description{
+    clear: both;
+    margin: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+}

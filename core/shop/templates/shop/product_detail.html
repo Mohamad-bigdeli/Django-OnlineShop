@@ -1,0 +1,38 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+{% block title %}Product{% endblock %}
+{% block content %} 
+<div class="header">
+    <h1>Product Detail</h1>
+</div>
+<div class="product-container">
+    <div class="product-detail">
+        <h2>{{product.name}}</h2>
+        <p>
+            category : {{product.category}} <br>
+            inventory : {{product.inventory}} <br>
+            <ul>
+                {% for feature in product.features.all %}
+                    <li>{{feature.name}} : {{feature.value}}</li>
+                {% endfor %}
+                <br>
+            </ul>
+            <div class="price">
+                <span class="orginal-price">{{product.price}}$</span> <br>
+                <span class="discounted-price">{{product.discount_price}}$</span>
+            </div>
+            <div class="product-images">
+                {% for image in product.images.all %}
+                    <img src="{{image.file.url}}" width="75px" height="75px">
+                {% endfor %}
+            </div>
+            <div class="product-description">
+                <h3>Product Description</h3>
+                <p>
+                    {{product.description}}
+                </p>
+            </div>
+        </p>
+    </div>
+</div>
+{% endblock %}
