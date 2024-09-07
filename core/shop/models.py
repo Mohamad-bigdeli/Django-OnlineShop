@@ -15,13 +15,6 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-class ProductFeature(models.Model):
-    name = models.CharField(max_length=255)
-    value = models.CharField(max_length=255)
-
-    def __str__(self):
-        return f"{self.name} : {self.value}"
-    
 class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="products")
     name = models.CharField(max_length=255)
@@ -31,9 +24,7 @@ class Product(models.Model):
     price= models.PositiveIntegerField(default=0)
     off = models.PositiveIntegerField(default=0)
     discount_price = models.PositiveIntegerField(default=0)
-    feature = models.ForeignKey(ProductFeature, on_delete=models.CASCADE, related_name="products_feature")
     
-
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -48,8 +39,14 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+class ProductFeature(models.Model):
+    name = models.CharField(max_length=255)
+    value = models.CharField(max_length=255)
+    product = models.ForeignKey(Product, related_name='features', on_delete=models.CASCADE)
 
-
+    def __str__(self):
+        return f"{self.name} : {self.value}"
+    
 class Image(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="images")
     file = models.ImageField(upload_to='products_image/%Y%m%d')
