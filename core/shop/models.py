@@ -23,7 +23,7 @@ class ProductFeature(models.Model):
         return f"{self.name} : {self.value}"
     
 class Product(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, related_name="products")
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="products")
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
     description = models.TextField(max_length=1200)
@@ -31,7 +31,7 @@ class Product(models.Model):
     price= models.PositiveIntegerField(default=0)
     off = models.PositiveIntegerField(default=0)
     discount_price = models.PositiveIntegerField(default=0)
-    feature = models.ForeignKey(ProductFeature, on_delete=models.SET_NULL, related_name="products_feature")
+    feature = models.ForeignKey(ProductFeature, on_delete=models.CASCADE, related_name="products_feature")
     
 
     created = models.DateTimeField(auto_now_add=True)
