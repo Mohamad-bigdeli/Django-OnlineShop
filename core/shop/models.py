@@ -28,6 +28,7 @@ class Product(models.Model):
     price= models.PositiveIntegerField(default=0)
     off = models.PositiveIntegerField(default=0)
     discount_price = models.PositiveIntegerField(default=0)
+    weight = models.PositiveIntegerField(default=0)
     
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
