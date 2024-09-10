@@ -23,3 +23,27 @@ def add_to_cart(request, product_id):
 def cart_detail(request):
     cart = Cart(request)
     return render(request, 'cart/cart_detail.html', {'cart':cart})
+
+@require_POST
+def update_quantity(request):
+    item_id = request.POST.get('item_id')
+    action = request.POST.get('action')
+    try:
+        product = get_object_or_404(Product, id=item_id)
+        cart = Cart(request)
+        if action == 'add':
+            cart.add(product)
+        elif action == 'decrase':
+            cart.decrase(product)
+        context = {
+            'item_count': len(cart),
+            'total_price': cart.get_total_price(),
+            'success': True, 
+            'quantity': cart.cart[item_id]['quantity'],
+            'price': cart.cart[item_id]['price'],
+            'total': cart.cart[item_id]['quantity'] * cart.cart[item_id]['price'],
+            'final_price': cart.get_final_price(),
+        }  
+        return JsonResponse(context)  
+    except:
+        return JsonResponse({'success':False, 'error':"ItemNotFound"})
