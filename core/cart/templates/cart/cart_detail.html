@@ -1,0 +1,42 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+{% block title %}Cart{% endblock %}
+{% block content %} 
+<br> <br> <br> <br>
+    <div class="header">
+        <h1>Shopping Cart</h1>
+    </div>
+    <div class="cart-detail-container">
+        {% for item in cart %}
+            <div class="product-item">
+                <a href="{% url 'shop:product_detail' item.product.id item.product.slug %}">
+                    <img src="{{ item.product.images.first.file.url }}" class="product-image">
+                </a>
+                <div class="product-info">
+                    <h3>
+                        <a href="{% url 'shop:product_detail' item.product.id item.product.slug %}">
+                            Product Name : {{item.product.name}}
+                        </a>
+                    </h3>
+                    <p>Quantity : <span class="">{{item.quantity}}</span></p>
+                    <p>Unit price : <span class="">{{item.price}}</span></p>
+                    <p>Total price : <span class="">{{item.total}}</span></p>
+                </div>
+                <div class="actions">
+                    <div class="quantity-add">+</div>
+                    <div class="quantity-decrase">-</div>
+                    <div class="quantity-remove">remove</div>
+                </div>
+            </div>
+        {% endfor %}    
+    </div>
+    <div class="total_price">
+        <p> Total Price <span>{{ cart.get_total_price }}</span> $ </p>
+        <p> Shipping cost <span>{{ cart.get_post_price }}</span> $ </p>
+        <p> Final cost <span>{{ cart.get_final_price }}</span> $ </p>
+    </div>
+    <div class="checkout-buttons">
+        <div class="continue-btn"><a href="#">Continue shopping</a></div>
+        <div class="back-btn"><a href="{% url 'shop:product_list' %}">Back to the product list</a></div>
+    </div>
+{% endblock %}

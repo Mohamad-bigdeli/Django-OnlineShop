@@ -19,3 +19,7 @@ def add_to_cart(request, product_id):
         return JsonResponse(context)
     except:
         return JsonResponse({'error': "InvalidRequest"})
+    
+def cart_detail(request):
+    cart = Cart(request)
+    return render(request, 'cart/cart_detail.html', {'cart':cart})

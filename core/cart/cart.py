@@ -36,15 +36,18 @@ class Cart:
     def get_post_price(self):
         weight = sum(item['weight'] * item['quantity'] for item in self.cart.values())
         if weight < 1000:
-            return 20000
+            return 10
         elif 1000 <= weight <= 2000:
-            return 30000
+            return 12.5
         else: 
-            return 50000
+            return 15
     
     def get_total_price(self):
         price = sum(item['price'] * item['quantity'] for item in self.cart.values())
         return price
+    
+    def get_final_price(self):
+        return self.get_total_price() + self.get_post_price()
 
     def __len__(self):
         return sum(item['quantity'] for item in self.cart.values())
@@ -56,6 +59,7 @@ class Cart:
         for product in products:
             cart_dict[str(product.id)]['product'] = product
         for item in cart_dict.values():
+            item['total'] = item['price'] * item['quantity']
             yield item
 
     def save(self):
