@@ -5,13 +5,13 @@ class Cart:
         self.session = request.session
         cart = self.session.get('cart')
         if not cart:
-            self.session['cart'] = {}
+            cart = self.session['cart'] = {}
         self.cart = cart
     
     def add(self, product):
         product_id = str(product.id)
         if product_id not in self.cart:
-            self.cart[product_id] = {'quantity': 1, 'price': product.price, 'weight': product.weight}
+            self.cart[product_id] = {'quantity': 1, 'price': product.discount_price, 'weight': product.weight}
         else:
             self.cart[product_id]['quantity'] += 1
         self.save()
