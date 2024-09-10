@@ -21,6 +21,8 @@
                 <span class="orginal-price">{{product.price}}$</span> <br>
                 <span class="discounted-price">{{product.discount_price}}$</span>
             </div>
+            <br>
+            <button type="button" id="add-cart">Add To Cart</button>
             <div class="product-images">
                 {% for image in product.images.all %}
                     <img src="{{image.file.url}}" width="75px" height="75px">
