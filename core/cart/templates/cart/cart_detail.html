@@ -50,6 +50,10 @@
             updateQuantity($(this).closest('.product-item').data('item-id'), 'decrase');
         });
 
+        $('.quantity-remove').on('click', function(){
+            removeItem($(this).closest('.product-item').data('item-id'));
+        });
+
         function updateQuantity(itemId, action){
             $.ajax({
                 type:'POST',
@@ -73,6 +77,30 @@
                 }
             });
         }
+
+        function removeItem(itemId){
+            $.ajax({
+                type: 'POST',
+                url: '{% url "cart:remove_item" %}',
+                data: {
+                    'item_id': itemId,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(data){
+                    if (data.success) {
+                        $('#item_count').text(data.item_count);
+                        $('#total_price').text(data.total_price);
+                        $('#item-total_price').text(data.total_price);
+                        $('#item-final_price').text(data.final_price);
+                        $(`.product-item[data-item-id=${itemId}]`).remove();
+                    } else {
+                        alert('Error remove quantity!');
+                    }
+                }
+
+            });
+        }
+
     });
 </script>
 {% endblock %}
