@@ -23,7 +23,7 @@ class ShopUserManager(BaseUserManager):
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('is_superuser must be True')
 
-        self.create_user(phone, password, extra_fields)
+        return self.create_user(phone, password, **extra_fields)
 
 # Create your models here.
 
