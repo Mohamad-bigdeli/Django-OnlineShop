@@ -74,3 +74,36 @@ class RegisterForm(forms.ModelForm):
         if len(phone) != 11:
             raise forms.ValidationError('Phone must have 11 digits.')
         return phone
+    
+class EditUserForm(forms.ModelForm):
+     
+    class Meta:
+        model = ShopUser
+        fields = ['first_name', 'last_name', 'phone', 'address']
+
+    def __init__(self, *args, **kwargs):
+        self.instance = kwargs.get('instance')
+        super(EditUserForm, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        for field in self.fields:
+            if not cleaned_data.get(field):
+                cleaned_data[field] = getattr(self.instance, field)
+        return cleaned_data
+
+    def clean_phone(self):
+        phone = self.cleaned_data.get('phone')
+        if self.instance.pk:
+            if ShopUser.objects.filter(phone=phone).exclude(pk=self.instance.pk).exists():
+                raise forms.ValidationError('Phone already exist.')
+        else:
+            if ShopUser.objects.filter(phone=phone).exists(): 
+                raise forms.ValidationError('Phone already exist.')
+        if not phone.isdigit():
+            raise forms.ValidationError('Invalid phone number.')
+        if not phone.startswith('09'):
+            raise forms.ValidationError('Phone must start with 09 digits.')
+        if len(phone) != 11:
+            raise forms.ValidationError('Phone must have 11 digits.')
+        return phone

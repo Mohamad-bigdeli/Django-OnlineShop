@@ -1,0 +1,17 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+{% block title %}EditUserPage{% endblock %}
+{% block content %} 
+<br><br><br>
+<div class="header">
+    <h1>EditUserForm</h1>
+</div>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit">
+    </form> 
+<div class="forms">
+
+</div>  
+{% endblock %}
