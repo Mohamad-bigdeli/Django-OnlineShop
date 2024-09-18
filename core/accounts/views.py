@@ -37,4 +37,4 @@ def edit_user(request):
             return redirect('shop:product_list')
     else:
         form = EditUserForm()
-    return render(request, 'registration/edit_user.html')
+    return render(request, 'registration/edit_user.html', {'form':form})
