@@ -1,0 +1,18 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+{% block title %}LoginPage{% endblock %}
+{% block content %} 
+<br><br><br>
+<div class="header">
+    <h1>LoginForm</h1>
+</div>
+<div class="forms">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Login">
+    </form>  
+</div>  
+<h4><a href="#">Forget password?</a></h4>
+<h4><a href="#">Register</a></h4>
+{% endblock %}
