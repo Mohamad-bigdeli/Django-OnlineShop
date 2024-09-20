@@ -5,10 +5,17 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 
-def product_list(request, category_slug=None):
+def product_list(request, category_slug=None, sort=None):
     category = None
     categories = Category.objects.all()
-    products = Product.objects.all()  
+    products = Product.objects.all()
+    if sort:
+        if sort == 'price_asc':  
+            products = Product.objects.order_by('-discount_price').all()
+        elif sort == 'price_decs':
+            products = Product.objects.order_by('discount_price')
+        else:
+            products = products
     if category_slug:
         category = get_object_or_404(Category, slug=category_slug)
         products = Product.objects.filter(category=category)

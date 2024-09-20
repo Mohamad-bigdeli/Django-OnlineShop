@@ -9,8 +9,7 @@
     {% else %}
     <h1>List of products</h1>
     {% endif %}
-</div>
-
+</div> 
 <div class="container">
     <div class="small-div">
         <ul class="categories">
@@ -18,6 +17,10 @@
             {% for category in categories %}
             <li class="category"><a href="{{category.get_absolute_url}}">{{category.name}}</a></li>
             {% endfor %}
+            <br>
+            <li class="sort"><a href="{% url 'shop:product_list_sorted' 'price_decs' %}">The cheapest</a></li>
+            <br>
+            <li class="sort"><a href="{% url 'shop:product_list_sorted' 'price_asc' %}">the most expensive</a></li>
         </ul>
     </div>
     <div class="large-div">
@@ -33,5 +36,5 @@
         {% endfor %}
     </div>
 </div>    
-{% include "partials/pagination.html" with page=posts%}  
+{% include 'partials/pagination.html' %}
 {% endblock %}
