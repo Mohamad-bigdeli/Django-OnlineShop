@@ -62,7 +62,7 @@ def remove_item(request):
             'total_price': cart.get_total_price(),
             'final_price': cart.get_final_price(),
             'success': True,
-        }
+        }  
         return JsonResponse(context)
     except:
         return JsonResponse({'success': False, 'error': 'Item not found!'})
