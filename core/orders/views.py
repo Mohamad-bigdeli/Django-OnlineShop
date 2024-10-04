@@ -21,6 +21,7 @@ def verify_phone(request):
                 request.session['verification_code'] = tokens['token']
                 request.session['phone'] = phone
                 send_sms_normal(phone, tokens)
+                print(tokens)
                 messages.error(request, "verification code sent successfully.")
                 return redirect('orders:verify_code')
 
@@ -35,12 +36,13 @@ def verify_code(request):
             verification_code = request.session['verification_code']
             phone = request.session['phone']
             if code == verification_code:
-                user = ShopUser.objects.create(phone=phone, password=''.join(random.choices('0123456789', k=7)))
+                user = ShopUser.objects.create(phone=phone)
+                user.set_password(''.join(random.choices('0123456789', k=7)))
                 send_sms_normal(phone, f'your password : {user.password}')
                 login(request, user)
                 del request.session['verification_code']
                 del request.session['phone']
-                return redirect('shop:product_detail')
+                return redirect('accounts:login')
             else:
                 messages.error(request, 'Verification code is incorrect. ')
 
