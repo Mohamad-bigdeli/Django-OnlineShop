@@ -136,3 +136,10 @@ AUTH_USER_MODEL = 'accounts.ShopUser'
 LOGIN_REDIRECT_URL = reverse_lazy('shop:product_list')
 LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'
+
+CACHES = {
+    'default' : {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "127.0.0.1:11211",
+    }
+}

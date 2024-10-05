@@ -5,7 +5,7 @@ from accounts.models import ShopUser
 import random
 from django.contrib.auth import login
 from cart.common.KaveSms import send_sms_normal
-
+from django.core.cache import cache
 # Create your views here.
 
 def verify_phone(request):
@@ -18,11 +18,12 @@ def verify_phone(request):
                 return redirect('orders:verify_phone')
             else:
                 tokens = {'token':''.join(random.choices('0123456789', k=6))}
-                request.session['verification_code'] = tokens['token']
-                request.session['phone'] = phone
-                send_sms_normal(phone, tokens)
-                print(tokens)
-                messages.error(request, "verification code sent successfully.")
+                token = tokens['token']
+                cache.set('token', token, timeout=300)
+                cache.set('phone', phone, timeout=300)
+                send_sms_normal(phone, f'code : {token}')
+                print(f"code : {token}")
+                messages.success(request, "verification code sent successfully.(300s)")
                 return redirect('orders:verify_code')
 
     else:
@@ -33,16 +34,16 @@ def verify_code(request):
     if request.method == 'POST':
         code = request.POST.get('code')
         if code:
-            verification_code = request.session['verification_code']
-            phone = request.session['phone']
+            phone = cache.get('phone')
+            verification_code = cache.get('token')
             if code == verification_code:
                 user = ShopUser.objects.create(phone=phone)
-                user.set_password(''.join(random.choices('0123456789', k=7)))
-                send_sms_normal(phone, f'your password : {user.password}')
+                password = ''.join(random.choices('0123456789', k=7))
+                user.set_password(password)
+                send_sms_normal(phone, f'your password : {password}')
+                print(f"password : {password}")
                 login(request, user)
-                del request.session['verification_code']
-                del request.session['phone']
-                return redirect('accounts:login')
+                return redirect('shop:product_list')
             else:
                 messages.error(request, 'Verification code is incorrect. ')
 
