@@ -1,5 +1,6 @@
 from django import forms
 from accounts.models import ShopUser
+from .models import Oreder
 
 class PhoneVerificationForm(forms.Form):
     phone = forms.CharField(max_length=11)
@@ -14,3 +15,8 @@ class PhoneVerificationForm(forms.Form):
         if len(phone) != 11:
             raise forms.ValidationError('Phone must have 11 digits.')
         return phone
+    
+class OrderCreateForm(forms.ModelForm):
+    class Meta:
+        model = Oreder
+        fields = ['first_name', 'last_name', 'phone', 'address', 'postal_code', 'province', 'city']

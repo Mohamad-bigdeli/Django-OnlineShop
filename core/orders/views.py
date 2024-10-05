@@ -1,14 +1,20 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .forms import PhoneVerificationForm
+from .forms import PhoneVerificationForm, OrderCreateForm
 from accounts.models import ShopUser
+from cart.cart import Cart
 import random
 from django.contrib.auth import login
 from cart.common.KaveSms import send_sms_normal
 from django.core.cache import cache
+from .models import OrderItem
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 
 def verify_phone(request):
+    if request.user.is_authenticated:
+        return redirect('orders:create_order')
     if request.method == 'POST':
         form = PhoneVerificationForm(request.POST)
         if form.is_valid():
@@ -43,8 +49,28 @@ def verify_code(request):
                 send_sms_normal(phone, f'your password : {password}')
                 print(f"password : {password}")
                 login(request, user)
-                return redirect('shop:product_list')
+                return redirect('orders:create_order')
             else:
                 messages.error(request, 'Verification code is incorrect. ')
 
     return render(request, 'verify_code.html', )
+
+@login_required
+def create_order(request):
+    cart = Cart(request)
+    if request.method == "POST":
+        form = OrderCreateForm(request.POST)
+        if form.is_valid():
+            order = form.save()
+            for item in cart:
+                OrderItem.objects.create(order=order, product=item['product'], price=item['price'],
+                                          quantity=item['quantity'], weight=item['weight'])
+            cart.clear()    
+            return redirect('shop:product_list')    
+    else:
+        form = OrderCreateForm()
+    context = {
+        'form' : form,
+        'cart' : cart
+    }
+    return render(request, 'create_order.html', context)

@@ -1,0 +1,15 @@
+<ul>
+    {% for item in cart %}
+    <li>
+        {{item.quantity}} X {{item.product.name}}
+        {{item.total}}
+    </li>
+    {% endfor %}
+</ul>
+
+<h2>Complete the order information</h2>
+<form method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit">confirmation</button>
+</form>
