@@ -44,11 +44,9 @@ def verify_code(request):
             verification_code = cache.get('token')
             if code == verification_code:
                 user = ShopUser.objects.create(phone=phone)
-                password = ''.join(random.choices('0123456789', k=7))
-                user.set_password(password)
-                send_sms_normal(phone, f'your password : {password}')
-                print(f"password : {password}")
-                login(request, user)
+                user.set_password('12345')
+                send_sms_normal(phone, 'your password : 12345')
+                login(request, user)   
                 return redirect('orders:create_order')
             else:
                 messages.error(request, 'Verification code is incorrect. ')
