@@ -1,9 +1,11 @@
 from django.db import models
 from shop.models import Product
+from accounts.models import ShopUser
 
 # Create your models here.
 
 class Oreder(models.Model):
+    buyer = models.ForeignKey(ShopUser, on_delete=models.SET_NULL, related_name="orders", null=True)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     phone = models.CharField(max_length=11)
