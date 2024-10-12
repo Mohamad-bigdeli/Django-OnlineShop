@@ -1,0 +1,17 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+{% block title %}Payment{% endblock %}
+{% block content %} 
+{% if success %}
+<div class="success">
+    <p>Successful payment</p>
+    <p>{{RefID}} : Reference ID</p>
+    <p>{{order_id}} : Order ID</p>
+</div>
+{% else %}
+<div class="failure">
+    <p>Payment failed</p>
+</div>
+{% endif %}
+<a class="back-btn" href="{% url 'shop:product_list' %}">back to product list</a>
+{% endblock %}
