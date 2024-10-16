@@ -1,4 +1,19 @@
 {% load static %}
+<br>
+<div>
+    <a href="{% url 'accounts:logout' %}">logout</a>
+</div> 
+<br>
+{% if request.user.is_authenticated %}    
+<div> 
+        <a href="{% url 'shop:profile' %}">profile</a>
+    </div>
+{% else %}
+<div>
+    <a href="{% url 'accounts:login' %}">login or rigester</a>
+</div>
+{% endif %}
+        <br> <br>
 <div class="cart-container"></div>
     {% with item_count=cart|length %}
     <a href="{% url 'cart:cart_detail' %}" class="cart-link">

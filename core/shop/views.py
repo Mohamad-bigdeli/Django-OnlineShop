@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from .models import Category, Product
 from accounts.models import ShopUser
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -40,3 +41,8 @@ def product_detail(request, id, slug):
         'product' : product 
     }
     return render(request, 'shop/product_detail.html', context)
+
+@login_required
+def profile(request):
+    user = get_object_or_404(ShopUser, id=request.user.id)
+    return render(request, 'shop/profile.html', {"user":user})
