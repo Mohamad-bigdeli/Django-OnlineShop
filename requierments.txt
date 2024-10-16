@@ -6,3 +6,4 @@ pillow
 python-memcached==1.62
 requests==2.32.3
 openpyxl==3.1.5
+kavenegar==1.1.2
