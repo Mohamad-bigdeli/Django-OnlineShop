@@ -51,9 +51,9 @@ def update_quantity(request):
 
 @require_POST
 def remove_item(request):
-    product_id = request.POST.get('product_id')
+    item_id = request.POST.get('item_id')
     try:
-        product = get_object_or_404(Product, id=product_id)
+        product = get_object_or_404(Product, id=item_id)
         cart = Cart(request)
         cart.remove(product)
 
