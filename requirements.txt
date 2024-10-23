@@ -1,0 +1,9 @@
+asgiref==3.8.1
+Django==5.1.1
+sqlparse==0.5.1
+tzdata==2024.1
+pillow 
+python-memcached==1.62
+requests==2.32.3
+openpyxl==3.1.5
+kavenegar==1.1.2

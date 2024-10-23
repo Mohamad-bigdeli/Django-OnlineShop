@@ -1,0 +1,16 @@
+version: "3.7"
+
+services:
+  backend:
+    build: .
+    container_name: "backend"
+    restart: "always"
+    ports:
+      - "8000:8000"
+    volumes:
+      - type: "bind"
+        source: "./core"
+        target: "/app"
+    environment:
+      - SECRET_KEY=test
+      - DEBUG=True
