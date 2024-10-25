@@ -1,12 +1,12 @@
 version: "3.7"
 
 services:
-  backend:
+  app:
     build: .
     container_name: "backend"
     restart: "always"
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
     volumes:
       - type: "bind"
         source: "./core"
@@ -14,3 +14,17 @@ services:
     environment:
       - SECRET_KEY=test
       - DEBUG=True
+  nginx:
+    build: "./nginx"
+    container_name: "nginx"
+    restart: "always"
+    ports:
+      - "80:80"
+    volumes:
+      - type: "bind"
+        source: "./core/staticfiles"
+        target: "/app/static"
+
+      - type: "bind"
+        source: "./core/media"
+        target: "/app/media"
