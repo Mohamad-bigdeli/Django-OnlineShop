@@ -2,7 +2,7 @@ from kavenegar import *
 
 def send_sms_normal(receptor, message):
     try:
-        api = KavenegarAPI('43502F55745965686564474946647937784646345379377763726B2F535035694751356944707A6E7166593D')
+        api = KavenegarAPI('ApiKey')
         params = {
             'sender': '',#optional
             'receptor': receptor,#multiple mobile number, split by comma
